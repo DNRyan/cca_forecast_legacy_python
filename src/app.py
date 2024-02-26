@@ -13,6 +13,8 @@ def main():
 
     grouped_by_day = defaultdict(list)
     summaries = {}
+
+    outputs: list[str] = []
     # Group entries by day
     for entry in weather_data:
         entry_time = datetime.fromisoformat(entry["date_time"].replace('Z', '+00:00'))
@@ -46,8 +48,11 @@ def main():
                    "High Temperature: " + str(max(all_temps)) + "\n",
                    "Low Temperature: " + str(min(all_temps)) + "\n"]
 
-        print("".join(summary))
+        output = "".join(summary)
+        print(output)
+        outputs.append(output)
 
+    return "\n".join(outputs)
 
 if __name__ == "__main__":
     main()
