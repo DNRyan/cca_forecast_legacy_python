@@ -1,5 +1,6 @@
 from datetime import datetime
 from collections import defaultdict
+from typing import Iterator
 import requests
 
 
@@ -10,7 +11,12 @@ def main():
     response.raise_for_status()
 
     weather_data = response.json()
+    
+    for output in get_summary(weather_data=weather_data):
+        print(output)
 
+
+def get_summary(weather_data: object) -> Iterator[str]:
     grouped_by_day = defaultdict(list)
     summaries = {}
 
@@ -48,11 +54,7 @@ def main():
                    "High Temperature: " + str(max(all_temps)) + "\n",
                    "Low Temperature: " + str(min(all_temps)) + "\n"]
 
-        output = "".join(summary)
-        print(output)
-        outputs.append(output)
-
-    return "\n".join(outputs)
+        yield "".join(summary)
 
 if __name__ == "__main__":
     main()
